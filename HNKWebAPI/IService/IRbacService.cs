@@ -1,8 +1,10 @@
 ﻿using HNKWebAPI.Models;
+using HNKWebAPI.Dtos;
 using HNKWebAPI.Entities;
+
 namespace HNKWebAPI.IService {
     interface IRbacService {
-        ResponseModel AddUser(Users user);
+        ResponseModel AddUser(UsersDto user);
         ResponseModel Modify(Users user);
         ResponseModel DeleteUser(Users user);
         ResponseModel GetUser(int id);

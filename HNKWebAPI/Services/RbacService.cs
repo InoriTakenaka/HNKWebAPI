@@ -2,18 +2,21 @@
 using HNKWebAPI.IService;
 using HNKWebAPI.Models;
 using HNKWebAPI.DataSource;
+using HNKWebAPI.Utils;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using HNKWebAPI.Dtos;
 
 namespace HNKWebAPI.Services {
     public class RbacService : IRbacService {
         public RbacService(DataSourceContext dataSourceContext) {
             db = dataSourceContext;
         }
-        public ResponseModel AddUser(Users user) {
+        public ResponseModel AddUser(UsersDto user) {
+            Users user_ = ClassMapping.ClassMemberMapping<UsersDto, Users>(user);
             ResponseModel response = new ResponseModel();
-            if (user.UserAccount.ToLower().Equals("admin") ||
-              user.UserAccount.ToLower().Equals("administrator")) {
+            if (user_.UserAccount.ToLower().Equals("admin") ||
+              user_.UserAccount.ToLower().Equals("administrator")) {
                 response.Code = 0;
                 response.Message = "User Account is Invalid";
             }
@@ -24,10 +27,10 @@ namespace HNKWebAPI.Services {
                     response.Message = "User already Existed";
                 }
                 else {
-                    db.Users.Add(user);
+                    db.Users.Add(user_);
                     db.SaveChanges();
                     response.Code = 1;
-                    response.Data = user;
+                    response.Data = user_;
                     response.Message = "User create Success";
                 }
 

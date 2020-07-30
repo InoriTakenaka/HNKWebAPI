@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30225.117
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HNKWebAPI", "HNKWebAPI\HNKWebAPI.csproj", "{DEE62910-F5D6-42F6-8392-1922595C97B7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NewFolder1", "NewFolder1", "{1894F432-A6DA-4CC6-AB54-5528D96A696F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DEE62910-F5D6-42F6-8392-1922595C97B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEE62910-F5D6-42F6-8392-1922595C97B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEE62910-F5D6-42F6-8392-1922595C97B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEE62910-F5D6-42F6-8392-1922595C97B7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FED6D4FF-DE06-4821-9753-A7BE3FF46D0F}
+	EndGlobalSection
+EndGlobal

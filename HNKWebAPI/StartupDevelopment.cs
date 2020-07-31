@@ -11,6 +11,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.OpenApi.Models;
+using HNKWebAPI.IService;
+using HNKWebAPI.Services;
+
 namespace HNKWebAPI {
     public class StartupDevelopment {
         public StartupDevelopment(IConfiguration configuration) {
@@ -30,6 +33,7 @@ namespace HNKWebAPI {
                     Title = "V1"
                 });
             });
+            services.AddScoped<IRbacService, RbacService>();
             services.AddControllers();
             services.AddHttpsRedirection(options => {
                 options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;

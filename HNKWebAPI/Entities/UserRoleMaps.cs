@@ -7,7 +7,7 @@ namespace HNKWebAPI.Entities {
     public class UserRoleMaps {
         public int Id { get; set; }
         public int UserId { get; set; }
-        public int RoleInd { get; set; }
+        public int RoleId { get; set; }
         public int AurthorizeId { get; set; }
     }
 }

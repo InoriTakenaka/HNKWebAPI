@@ -3,10 +3,10 @@ using HNKWebAPI.Dtos;
 using HNKWebAPI.Entities;
 
 namespace HNKWebAPI.IService {
-    interface IRbacService {
+   public interface IRbacService {
         ResponseModel AddUser(UsersDto user);
-        ResponseModel Modify(Users user);
-        ResponseModel DeleteUser(Users user);
+        ResponseModel ModifyUser(UsersDto user);
+        ResponseModel DeleteUser(int id);
         ResponseModel GetUser(int id);
         ResponseModel GetUsers();
         ResponseModel SaveRole(Roles role);

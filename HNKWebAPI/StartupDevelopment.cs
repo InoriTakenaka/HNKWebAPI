@@ -1,18 +1,13 @@
 using HNKWebAPI.DataSource;
+using HNKWebAPI.IService;
+using HNKWebAPI.Services;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.OpenApi.Models;
-using HNKWebAPI.IService;
-using HNKWebAPI.Services;
+using System;
 
 namespace HNKWebAPI {
     public class StartupDevelopment {
@@ -34,6 +29,8 @@ namespace HNKWebAPI {
                 });
             });
             services.AddScoped<IRbacService, RbacService>();
+            services.AddScoped<IMenuService, MenuService>();
+            services.AddScoped<IDepartmentService, DepartManagerService>();
             services.AddControllers();
             services.AddHttpsRedirection(options => {
                 options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;

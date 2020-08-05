@@ -4,14 +4,16 @@ using HNKWebAPI.DataSource;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HNKWebAPI.Migrations
 {
     [DbContext(typeof(DataSourceContext))]
-    partial class DataSourceContextModelSnapshot : ModelSnapshot
+    [Migration("20200804034212_RemoveColumn")]
+    partial class RemoveColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,7 +110,7 @@ namespace HNKWebAPI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("AwardMoney")
-                        .HasColumnType("decimal(12,2)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<string>("AwardReason")
                         .HasColumnType("nvarchar(max)");

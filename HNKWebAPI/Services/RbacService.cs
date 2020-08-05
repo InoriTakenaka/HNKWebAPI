@@ -12,7 +12,7 @@ using System.Linq;
 namespace HNKWebAPI.Services {
     public class RbacService : IRbacService {
         public RbacService(DataSourceContext dataSourceContext) {
-            db = dataSourceContext;
+            db_ = dataSourceContext;
         }
         public ResponseModel AddUser(UsersDto user) {
             Users user_ = ClassMapping.ClassMemberMapping<UsersDto, Users>(user);
@@ -23,14 +23,14 @@ namespace HNKWebAPI.Services {
                 response.Message = "User Account is Invalid";
             }
             else {
-                Users entity = db.Users.AsNoTracking().Where(p => p.UserAccount.Equals(user_.UserAccount)).FirstOrDefault();
+                Users entity = db_.Users.AsNoTracking().Where(p => p.UserAccount.Equals(user_.UserAccount)).FirstOrDefault();
                 if (entity != null) {
                     response.Code = 0;
                     response.Message = "User already Existed";
                 }
                 else {
-                    db.Users.Add(user_);
-                    db.SaveChanges();
+                    db_.Users.Add(user_);
+                    db_.SaveChanges();
                     response.Code = 1;
                     response.Data = user;
                     response.Message = "User create Success";
@@ -42,33 +42,33 @@ namespace HNKWebAPI.Services {
 
         public ResponseModel DeleteRole(int id) {
             ResponseModel response = new ResponseModel();
-            var role = db.Roles.Where(p => p.Id == id).FirstOrDefault();
+            var role = db_.Roles.Where(p => p.Id == id).FirstOrDefault();
             if (role != null) {
-                db.Roles.Remove(role);
-                db.SaveChanges();
+                db_.Roles.Remove(role);
+                db_.SaveChanges();
             }
             return response;
         }
 
         public ResponseModel DeleteUser(int id) {
             ResponseModel response = new ResponseModel();
-            Users user = db.Users.Where(p => p.Id == id).FirstOrDefault();
+            Users user = db_.Users.Where(p => p.Id == id).FirstOrDefault();
             if (null != user) {
-                db.Users.Remove(user);
-                db.SaveChanges();
+                db_.Users.Remove(user);
+                db_.SaveChanges();
                 return response;
             }
             else {
-                response.Message = "user dose NOT exist";
+                response.Message = "specificed Objective dose NOT exist";
                 response.Code = 0;
                 return response;
             }
         }
 
         public ResponseModel GetPermissions() {
-            return new ResponseModel { Data = db.Permissions.ToList() };
+            return new ResponseModel { Data = db_.Permissions.ToList() };
 
-            //List<Permissions> permissions = db.Permissions.ToList();
+            //List<Permissions> permissions = db_.Permissions.ToList();
             //ResponseModel response = new ResponseModel();
             //response.Data = permissions;
             //return response;
@@ -76,7 +76,7 @@ namespace HNKWebAPI.Services {
 
         public ResponseModel GetRole(int id) {
             ResponseModel response = new ResponseModel();
-            var role = db.Roles.Where(p => p.Id == id).FirstOrDefault();
+            var role = db_.Roles.Where(p => p.Id == id).FirstOrDefault();
             if (role != null) {
                 response.Data = role;
             }
@@ -85,8 +85,8 @@ namespace HNKWebAPI.Services {
 
         public ResponseModel GetRoleByUser(int userid) {
             ResponseModel response = new ResponseModel();
-            var query = (from a in db.UserRoleMaps
-                         join b in db.Roles on a.RoleId equals b.Id
+            var query = (from a in db_.UserRoleMaps
+                         join b in db_.Roles on a.RoleId equals b.Id
                          where a.UserId == userid
                          select new Roles {
                              Id = b.Id,
@@ -99,7 +99,7 @@ namespace HNKWebAPI.Services {
 
         public ResponseModel GetRoles() {
             ResponseModel response = new ResponseModel();
-            var roles = db.Roles.ToList();
+            var roles = db_.Roles.ToList();
             response.Data = roles;
             response.DataCount = roles.Count();
             return response;
@@ -107,7 +107,7 @@ namespace HNKWebAPI.Services {
 
         public ResponseModel GetUser(int id) {
             ResponseModel response = new ResponseModel();
-            var user = db.Users.Where(p => p.Id == id).FirstOrDefault();
+            var user = db_.Users.Where(p => p.Id == id).FirstOrDefault();
             if (user != null) {
                 response.Data = user;
             }
@@ -116,7 +116,7 @@ namespace HNKWebAPI.Services {
 
         public ResponseModel GetUsers() {
             ResponseModel response = new ResponseModel();
-            var users = db.Users.ToList();
+            var users = db_.Users.ToList();
             response.Data = users;
             response.DataCount = users.Count();
             return response;
@@ -124,12 +124,12 @@ namespace HNKWebAPI.Services {
         
         public ResponseModel ModifyUser(UsersDto user) {
             var user_ = ClassMapping.ClassMemberMapping<UsersDto, Users>(user);
-            var entity_ = db.Users.AsNoTracking()
+            var entity_ = db_.Users.AsNoTracking()
                 .Where(p => p.Id == user_.Id).FirstOrDefault();
             ResponseModel response = new ResponseModel();
             if (null != entity_) {
-                db.Users.Update(entity_);
-                db.SaveChanges();
+                db_.Users.Update(entity_);
+                db_.SaveChanges();
                 response.Data = user;
             }
             else {
@@ -146,15 +146,15 @@ namespace HNKWebAPI.Services {
                 response.Message = "This role can only assigned by SYSTEM";
             }
             else {
-                var entity = db.Roles.AsNoTracking().Where(p => p.RoleName.Equals(role.RoleName)).FirstOrDefault();
+                var entity = db_.Roles.AsNoTracking().Where(p => p.RoleName.Equals(role.RoleName)).FirstOrDefault();
                 if (entity != null) {
                     role.Id = entity.Id;
-                    db.Roles.Update(role);
+                    db_.Roles.Update(role);
                 }
                 else {
-                    db.Roles.Add(role);
+                    db_.Roles.Add(role);
                 }
-                db.SaveChanges();
+                db_.SaveChanges();
                 response.Data = role;
             }
             return response;
@@ -163,10 +163,10 @@ namespace HNKWebAPI.Services {
         public ResponseModel SaveRoleMenu(RoleMenuMaps[] roleMenuMaps) {
             ResponseModel response = new ResponseModel();
             if (roleMenuMaps.Length > 0) {
-                var maps = db.RoleMenuMaps.Where(p => p.RoleId.Equals(roleMenuMaps[0].RoleId));
-                db.RoleMenuMaps.RemoveRange(maps);
-                db.RoleMenuMaps.AddRange(roleMenuMaps);
-                db.SaveChanges();
+                var maps = db_.RoleMenuMaps.Where(p => p.RoleId.Equals(roleMenuMaps[0].RoleId));
+                db_.RoleMenuMaps.RemoveRange(maps);
+                db_.RoleMenuMaps.AddRange(roleMenuMaps);
+                db_.SaveChanges();
             }
             return response;
         }
@@ -174,10 +174,10 @@ namespace HNKWebAPI.Services {
         public ResponseModel SaveRolePermission(RolePermissionMaps[] rolePermissionMaps) {
             ResponseModel response = new ResponseModel();
             if (rolePermissionMaps.Length > 0) {
-                var maps = db.RolePermissionMaps.Where(p => p.RoleId.Equals(rolePermissionMaps[0].RoleId));
-                db.RolePermissionMaps.RemoveRange(maps);
-                db.RolePermissionMaps.AddRange(rolePermissionMaps);
-                db.SaveChanges();
+                var maps = db_.RolePermissionMaps.Where(p => p.RoleId.Equals(rolePermissionMaps[0].RoleId));
+                db_.RolePermissionMaps.RemoveRange(maps);
+                db_.RolePermissionMaps.AddRange(rolePermissionMaps);
+                db_.SaveChanges();
             }
             return response;
         }
@@ -185,10 +185,10 @@ namespace HNKWebAPI.Services {
         public ResponseModel SaveUserRole(UserRoleMaps[] userRoleMaps) {
             ResponseModel response = new ResponseModel();
             if (userRoleMaps.Length > 0) {
-                var maps = db.UserRoleMaps.Where(p => p.UserId.Equals(userRoleMaps[0].UserId));
-                db.UserRoleMaps.RemoveRange(maps);
-                db.UserRoleMaps.AddRange(userRoleMaps);
-                db.SaveChanges();
+                var maps = db_.UserRoleMaps.Where(p => p.UserId.Equals(userRoleMaps[0].UserId));
+                db_.UserRoleMaps.RemoveRange(maps);
+                db_.UserRoleMaps.AddRange(userRoleMaps);
+                db_.SaveChanges();
             }
             return response;
         }
@@ -212,7 +212,7 @@ namespace HNKWebAPI.Services {
                 }
             }
             else {
-                Users user_ = db.Users.Where(p => p.UserAccount.Equals(userAccount) && p.UserPassword.Equals(password)).FirstOrDefault();
+                Users user_ = db_.Users.Where(p => p.UserAccount.Equals(userAccount) && p.UserPassword.Equals(password)).FirstOrDefault();
                 if (user_ == null) {
                     response.Message = "Login failed.username/password incorrect";
                     response.Code = 0;
@@ -227,6 +227,6 @@ namespace HNKWebAPI.Services {
             return response;
         }
 
-        private readonly DataSourceContext db;
+        private readonly DataSourceContext db_;
     }
 }

@@ -14,24 +14,24 @@ namespace HNKWebAPI.Controllers {
             this.service_ = service;
         }
         [HttpPost]
-        public async Task<ResponseModel> AddUser(UsersDto user) {
+        public async Task<ResponseModel> AddUser([FromBody] UsersDto user) {
             //Queues the specified work to run on the ThreadPool and returns 
             //a task or Task<TResult> handle for that work.
-            ResponseModel response = await Task.Run(() => { 
-                return service_.AddUser(user); 
+            ResponseModel response = await Task.Run(() => {
+                return service_.AddUser(user);
             });
             return response;
         }
         [HttpPost]
-        public Task<ResponseModel> ModifyUser(UsersDto user) {
+        public Task<ResponseModel> ModifyUser([FromBody] UsersDto user) {
             return Task.Run(() => {
                 return service_.ModifyUser(user);
             });
         }
-        [HttpDelete]
+        [HttpGet]
         public Task<ResponseModel> DeleteUser(int id) {
-            return Task.Run(() => { 
-                return service_.DeleteUser(id); 
+            return Task.Run(() => {
+                return service_.DeleteUser(id);
             });
         }
         [HttpGet]
@@ -71,7 +71,7 @@ namespace HNKWebAPI.Controllers {
             });
         }
         [HttpPost]
-        public Task<ResponseModel> SaveUserRole(UserRoleMaps[] maps) {
+        public Task<ResponseModel> SaveUserRole([FromBody] UserRoleMaps[] maps) {
             return Task.Run(() => {
                 return service_.SaveUserRole(maps);
             });
@@ -89,13 +89,13 @@ namespace HNKWebAPI.Controllers {
             });
         }
         [HttpPost]
-        public Task<ResponseModel> SaveRoleMenuMap(RoleMenuMaps[] maps) {
+        public Task<ResponseModel> SaveRoleMenuMap([FromBody] RoleMenuMaps[] maps) {
             return Task.Run(() => {
                 return service_.SaveRoleMenu(maps);
             });
         }
         [HttpGet]
-        public Task<ResponseModel> UserLogin(string user_account,string user_password) {
+        public Task<ResponseModel> UserLogin(string user_account, string user_password) {
             return Task.Run(() => {
                 return service_.UserLogin(user_account, user_password);
             });

@@ -201,7 +201,10 @@ namespace HNKWebAPI.Services {
                         id = -1,
                         user_code = userAccount,
                         user_password = password,
-                        user_name = "administrator"
+                        user_name = "administrator",
+                        user_id="0",
+                        user_status=1,
+                        create_time = DateTime.Now
                     };
                     response.Code = 1;
                     response.Data = userDto_;

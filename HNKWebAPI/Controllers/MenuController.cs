@@ -4,9 +4,10 @@ using System.Threading.Tasks;
 using HNKWebAPI.IService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace HNKWebAPI.Controllers {
-    [Route("api/service_s/[action]")]
+    [Route("api/menuservices/[action]")]
     [ApiController]
     public class MenuController : ControllerBase {
         private readonly IMenuService service_;
@@ -25,6 +26,13 @@ namespace HNKWebAPI.Controllers {
         public Task<ResponseModel> AddMenu(Menus menu) {
             return Task.Run(() => {
                 return service_.AddMenu(menu);
+            });
+        }
+
+        [HttpPut]
+        public Task<ResponseModel> SaveMenus([FromBody] List<Menus> menus) {
+            return Task.Run(() => {
+                return service_.SaveMenus(menus);
             });
         }
 

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace HNKWebAPI.Services {
     public class DepartManagerService:IDepartmentService {
@@ -80,6 +81,28 @@ namespace HNKWebAPI.Services {
                 response.Message = "No Data";
             }
             return response;
+        }
+
+        public ResponseModel SaveDepartmentInfo(Department department) {
+            ResponseModel response = new ResponseModel();
+            Department target = db_.Departments.AsNoTracking()
+            .Where(e => e.DepartID == department.DepartID)
+            .FirstOrDefault();
+            if (department == null) {
+                response.Code = 0;
+                response.Message = "Entity cannot be NULL";
+                return response;
+            }
+            else if (target == null) {
+                db_.Departments.Add(department);
+                db_.SaveChanges();
+                return response;
+            }
+            else {
+                db_.Departments.Update(department);
+                db_.SaveChanges();
+                return response;
+            }
         }
 
         public DepartManagerService(DataSourceContext dataSourceContext) {

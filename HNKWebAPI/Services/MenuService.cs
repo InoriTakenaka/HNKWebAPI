@@ -22,6 +22,18 @@ namespace HNKWebAPI.Services {
             return response;
         }
 
+        public ResponseModel SaveMenus(List<Menus> menus) {
+            db_.Menus.AddRange(menus.Where(m => m.Id == 0));
+            db_.SaveChanges();
+            ResponseModel response = new ResponseModel() {
+                DataCount = menus.Count,
+                Code = 1,
+                Message = "新增成功",
+                Data = null
+            };
+            return response;
+        }
+
         public ResponseModel DeleteMenu(int id) {
             ResponseModel response = new ResponseModel();
             Menus menu = db_.Menus.Where(p => p.Id.Equals(id)).FirstOrDefault();
@@ -34,7 +46,7 @@ namespace HNKWebAPI.Services {
 
         public ResponseModel GetMenu(int id) {
             ResponseModel response = new ResponseModel();
-            Menus menu = db_.Menus.Where(p => p.Id.Equals(id)).FirstOrDefault();
+            Menus menu = db_.Menus.FirstOrDefault(p => p.Id.Equals(id));
             if (null != menu)
                 response.Data = menu;
             return response;

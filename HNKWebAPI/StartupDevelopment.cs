@@ -36,6 +36,7 @@ namespace HNKWebAPI {
                 options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
                 options.HttpsPort = 5001;
             });
+            //var settingItem = Configuration["ConnectionStrings:DefaultConnection"];
             services.AddDbContext<DataSourceContext>(options => {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
